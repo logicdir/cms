@@ -2,46 +2,18 @@
 
 LogicDir is a high-performance, modular Content Management System built with **Laravel 12**, **Inertia.js**, and **Vue 3**. It is engineered specifically for premium web applications and websites, with a focus on ease of deployment in shared hosting environments without sacrificing modern developer experience.
 
-## 🚀 Core Philosophy
-- **Modular by Design**: Every feature is a self-contained module with its own lifecycle, routes, and hooks located in `app/Modules`.
-- **Enterprise Performance**: Targeted 95+ PageSpeed scores via aggressive caching, WebP optimization, and critical CSS strategies.
-- **Shared Hosting Friendly**: Optimized for file-based drivers and standard PHP environments, avoiding root-access requirements.
+## 🚀 Core Features
+- **Modular Architecture**: Every feature is a self-contained module in `app/Modules`.
+- **Dynamic Theme System**: Production-ready theme engine with `ThemeService` and "Rafa" default theme.
+- **Enterprise Performance**: Targeted 95+ PageSpeed scores via aggressive caching and optimization.
+- **Shared Hosting Friendly**: Optimized for standard PHP environments (cPanel/DirectAdmin).
 - **Developer First**: Fully typed PHP 8.2+ backend with Vue 3 Composition API frontend.
 
 ## 🛠 Technology Stack
 - **Backend**: Laravel 12, PHP 8.2+, MySQL 8.0+
-- **Frontend**: Inertia.js, Vue 3, Tailwind CSS, Vite
+- **Frontend**: Inertia.js, Vue 3, Tailwind CSS v4, Vite
 - **Processing**: Intervention Image v3, Canvas API
 - **Infrastructure**: Custom Module System, Hook/Action API
-
----
-
-## 📅 Roadmap & Development Phases
-
-### Phase 1: Foundation & Security (RBAC)
-- **Modular Core**: Advanced module loader with dependency resolution.
-- **RBAC System**: Role-Based Access Control and fine-grained permissions.
-- **Web Installer**: Graphical installer for database and migrations.
-
-### Phase 2: Content Management System
-- **Polymorphic Architecture**: Unified content table for Pages, Posts, and Custom Types.
-- **Hierarchical Data**: Nested sets for categories and adjacency lists for folders.
-- **Multi-language**: Built-in translation layer for global content reach.
-
-### Phase 3: Advanced Media Library
-- **Chunked Uploads**: Resumable, multi-file uploads with progress tracking.
-- **Automatic Optimization**: Real-time conversion to WebP and responsive variants.
-- **In-Browser Editor**: Canvas-based editor for cropping, rotation, and filters.
-
-### Phase 4: SEO, Shortcodes & Performance
-- **Enterprise SEO**: JSON-LD generation, XML sitemaps, and smart 301 redirects.
-- **Shortcode Engine**: WordPress-style shortcode system with AST generation.
-- **Performance Suite**: Full-page response caching and .htaccess hardening.
-
-### Phase 5: Ad Management & AdSense
-- **Flexible Units**: Support for Google AdSense and custom banner placements.
-- **Auto-Injection**: Rules-based engine for injecting ads into content paragraphs.
-- **UX Protection**: CLS-prevention placeholders and ad-block detection.
 
 ---
 
@@ -58,90 +30,79 @@ LogicDir is a high-performance, modular Content Management System built with **L
 
 ---
 
-## 🚀 Local Installation
+## 🚀 Installation Guide
 
-### A. XAMPP (Windows/Mac/Linux)
-1. **Clone to htdocs**
-   ```bash
-   cd C:\xampp\htdocs
-   git clone <repository-url> cms
-   cd cms
-   ```
-2. **Setup**
-   ```bash
-   composer install
-   npm install
-   copy .env.example .env
-   php artisan key:generate
-   ```
-3. **Database**
-   - Create a database named `cms` in phpMyAdmin (`http://localhost/phpmyadmin`).
-79. **Post-Installation**
-    - Run `php artisan storage:link` to enable avatar uploads/display.
-    - If installing in a subdirectory (e.g., `/cms/`), the system automatically detects this via `bootstrap/app.php`. Ensure `APP_URL` in `.env` matches your full URL (e.g., `http://localhost/cms`).
-80. **Run Web Installer**
-    - Navigate to `http://localhost/cms/public/install` in your browser to complete the setup.
-
-### B. WAMP (Windows)
-1. **Clone to www**: `C:\wamp64\www\cms`
-2. **Setup**: Run `composer install` & `npm install`.
-3. **Database**: Use cPanel-like default (Username: `root`, Password: ``).
-
-### C. MAMP (Mac)
-1. **Clone to htdocs**: `/Applications/MAMP/htdocs/cms`
-2. **Setup**: Use PHP 8.2+ from MAMP settings.
-3. **Database**: Port `8889`, Password `root`.
-
-### D. Laragon (Windows)
-1. **Clone to www**: `C:\laragon\www\cms`
-2. **Access**: Automatically creates `http://cms.test`.
-
----
-
-## 📦 Modular System (app/Modules)
-
-LogicDir is built on a modular architecture. Each module handles a specific domain:
-
-- **`Installer`**: Handles the `/install` web route for first-time setup.
-- **`Core`**: The system kernel, containing base logic and contracts.
-- **`User`**: Manages users, RBAC (Roles/Permissions), and authentication.
-- **`Media`**: Professional asset manager with chunked uploads and Image Editor.
-- **`Content`**: The core CMS engine for Pages, Posts, and Categories.
-- **`Seo`**: Meta tag management, XML sitemaps, and OpenGraph logic.
-- **`Adsense`**: Monetary integration for banner ads and Google AdSense.
-- **`Security`**: Audit logging, rate limiting, and server-side hardening.
-
-### Module Registration
-To add or enable a module, register its provider in `bootstrap/providers.php`.
-
----
-
-## 🌐 Deployment (cPanel/DirectAdmin)
-
-### 1. Structure
-- Upload the core folder to `/home/username/cms_core`.
-- Move `public/*` content to your `/home/username/public_html/`.
-
-### 2. File Path Fix
-In `public_html/index.php`:
-```php
-require __DIR__.'/../cms_core/vendor/autoload.php';
-$app = require_once __DIR__.'/../cms_core/bootstrap/app.php';
+### 1. Clone & Setup
+```bash
+git clone <repository-url> cms
+cd cms
+composer install
+npm install
+copy .env.example .env
+php artisan key:generate
 ```
 
-### 3. Production Optimization
+### 2. Database Setup
+1. Create a database named `cms`.
+2. Update `.env` with your database credentials:
+   ```env
+   DB_DATABASE=cms
+   DB_USERNAME=root
+   DB_PASSWORD=
+   ```
+3. Run migrations and seeders:
+   ```bash
+   php artisan migrate --seed
+   ```
+   *This will install the default "Rafa" theme.*
+
+### 3. Build Assets
+```bash
+npm run build
+```
+
+### 4. Optimize (Production)
 ```bash
 php artisan optimize
 php artisan config:cache
 php artisan route:cache
+php artisan view:cache
 ```
 
 ---
 
-## 🛡 Security & Support
-- **Logs**: Found in `storage/logs/laravel.log`.
-- **Debugging**: Ensure `APP_DEBUG=false` in production.
-- **Permissions**: Folders `755`, Files `644`, Storage `775`.
+## 🎨 Theme System
 
-### 4. Run Web Installer
-Navigate to `https://yourdomain.com/install` to finalize the system setup.
+LogicDir features a robust, database-driven theme system.
+
+- **Location**: `resources/themes/`
+- **Default Theme**: "Rafa" (`resources/themes/rafa/`)
+- **Management**: Admin Panel → Appearance → Themes
+- **Architecture**:
+    - `ThemeService`: Resolves views dynamically (e.g., `themes::rafa.views.home`).
+    - `AppearanceServiceProvider`: Registers theme namespaces.
+    - `themes` table: Tracks active theme status.
+
+---
+
+## 🌐 Shared Hosting Deployment
+
+1.  **Upload Core**: Upload the entire project to a non-public folder (e.g., `~/cms_core`).
+2.  **Public Folder**: Move everything inside `public/` to your `public_html` folder.
+3.  **Update Paths**: Edit `public_html/index.php`:
+    ```php
+    require __DIR__.'/../cms_core/vendor/autoload.php';
+    $app = require_once __DIR__.'/../cms_core/bootstrap/app.php';
+    ```
+4.  **Database**: Import your local database or run migrations via SSH.
+5.  **Symlink**: Create a storage link:
+    ```bash
+    ln -s ~/cms_core/storage/app/public ~/public_html/storage
+    ```
+
+---
+
+## 🛡 Security & Maintenance
+- **Debug Mode**: always set `APP_DEBUG=false` in production.
+- **Permissions**: Folders `755`, Files `644`, Storage `775`.
+- **Logs**: Check `storage/logs/laravel.log` for errors.
