@@ -1,0 +1,41 @@
+name: LogicDir CMS Deployment
+
+on:
+  push:
+    branches: [ main, develop ]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.2'
+      - name: Install Dependencies
+        run: composer install -q --no-ansi --no-interaction --no-scripts --no-progress --prefer-dist
+      - name: Run Tests
+        run: php artisan test
+
+  deploy:
+    needs: test
+    runs-on: ubuntu-latest
+    if: github.event_name == 'push'
+    steps:
+      - uses: actions/checkout@v3
+      - name: Build Assets
+        run: |
+          npm install
+          npm run build
+      - name: Create Package
+        run: zip -r deploy-package.zip . -x ".git/*" "node_modules/*"
+      - name: Deploy to Server via SFTP
+        uses: wlixcc/SFTP-Deploy-Action@v1.2.4
+        with:
+          username: ${{ secrets.FTP_USER }}
+          server: ${{ secrets.FTP_HOST }}
+          ssh_private_key: ${{ secrets.SSH_KEY }}
+          local_path: 'deploy-package.zip'
+          remote_path: '/home/${{ secrets.FTP_USER }}/deployments'
+          args: '-o ConnectTimeout=5'

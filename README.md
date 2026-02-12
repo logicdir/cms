@@ -58,6 +58,13 @@ Enterprise-grade protection suite for high-risk shared hosting environments.
 - **System Monitoring**: Security dashboard for tracking threats and failed login attempts.
 - **Integrity Checks**: CLI-based security auditor for configuration and permission validation.
 
+### Phase 7: Deployment Automation & Production Ops
+Robust automation for reliable releases on DirectAdmin/Shared Hosting.
+- **Atomic Deployment**: Server-side scripts for zero-downtime swaps and database migrations.
+- **CI/CD Integration**: GitHub Actions workflow for automated testing and SFTP-based delivery.
+- **Ops Tooling**: Automated database/file backups and post-deployment system optimization.
+- **Production Hardening**: Production-ready .htaccess with PHP 8.2 selection and resource tuning.
+
 ---
 
 ## ⚡ Quick Start
