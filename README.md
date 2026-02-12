@@ -69,6 +69,9 @@ php artisan route:cache
 php artisan view:cache
 ```
 
+### 5. Finalize Installation
+Navigate to `http://localhost/cms/public/install` (or your domain) to run the Web Installer and create your admin account.
+
 ---
 
 ## 🎨 Theme System
@@ -99,6 +102,11 @@ LogicDir features a robust, database-driven theme system.
     ```bash
     ln -s ~/cms_core/storage/app/public ~/public_html/storage
     ```
+
+---
+
+### 4. Run Web Installer
+Navigate to `https://yourdomain.com/install` to finalize the system setup.
 
 ---
 
