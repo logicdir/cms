@@ -24,6 +24,11 @@ jobs:
     if: github.event_name == 'push'
     steps:
       - uses: actions/checkout@v3
+      - name: Validate Secrets
+        run: |
+          if [ -z "${{ secrets.SFTP_HOST }}" ]; then echo "❌ SFTP_HOST is missing"; exit 1; fi
+          if [ -z "${{ secrets.SFTP_USER }}" ]; then echo "❌ SFTP_USER is missing"; exit 1; fi
+          if [ -z "${{ secrets.SFTP_KEY }}" ]; then echo "❌ SFTP_KEY is missing"; exit 1; fi
       - name: Build Assets
         run: |
           npm install
@@ -33,10 +38,10 @@ jobs:
       - name: Deploy to Server via SFTP
         uses: wlixcc/SFTP-Deploy-Action@v1.2.4
         with:
-          username: ${{ secrets.FTP_USER }}
-          server: ${{ secrets.FTP_HOST }}
-          ssh_private_key: ${{ secrets.SSH_KEY }}
+          username: ${{ secrets.SFTP_USER }}
+          server: ${{ secrets.SFTP_HOST }}
+          ssh_private_key: ${{ secrets.SFTP_KEY }}
           local_path: 'deploy-package.zip'
-          remote_path: '/home/${{ secrets.FTP_USER }}/deployments'
+          remote_path: '/home/${{ secrets.SFTP_USER }}/deployments'
           port: 22
           args: '-o ConnectTimeout=5'
