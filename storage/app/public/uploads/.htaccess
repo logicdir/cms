@@ -1,0 +1,18 @@
+# Disable PHP engine
+<IfModule mod_php7.c>
+    php_flag engine off
+</IfModule>
+<IfModule mod_php.c>
+    php_flag engine off
+</IfModule>
+
+# Disable execution of scripts
+Options -ExecCGI -Indexes
+RemoveHandler .php .phtml .php3 .php4 .php5 .php7 .phps .pl .py .jsp .asp .sh .cgi
+AddType text/plain .php .phtml .php3 .php4 .php5 .php7 .phps .pl .py .jsp .asp .sh .cgi
+
+# Force download for potentially dangerous files if somehow uploaded
+<FilesMatch "\.(php|phtml|php3|php4|php5|php7|phps|pl|py|jsp|asp|sh|cgi)$">
+    ForceType application/octet-stream
+    Header set Content-Disposition attachment
+</FilesMatch>
