@@ -51,6 +51,13 @@ Comprehensive ad placement and monetization system.
 - **UX Protection**: Built-in AdBlocker detection with polite fallbacks and CLS-prevention placeholders.
 - **Analytics**: Performance tracking for impressions and clicks with privacy-compliant IP hashing.
 
+### Phase 6: Security Hardening & Hardened Configuration
+Enterprise-grade protection suite for high-risk shared hosting environments.
+- **Middleware Security**: Nonce-based CSP, HSTS, and global XSS filtering.
+- **Audit Logging**: Full trail for admin actions and data mutations with the `LogsActivity` trait.
+- **System Monitoring**: Security dashboard for tracking threats and failed login attempts.
+- **Integrity Checks**: CLI-based security auditor for configuration and permission validation.
+
 ---
 
 ## ⚡ Quick Start
