@@ -3,76 +3,127 @@
 LogicDir is a high-performance, modular Content Management System built with **Laravel 12**, **Inertia.js**, and **Vue 3**. It is engineered specifically for premium web applications and websites, with a focus on ease of deployment in shared hosting environments without sacrificing modern developer experience.
 
 ## 🚀 Core Philosophy
-- **Modular by Design**: Every feature is a self-contained module with its own lifecycle, routes, and hooks.
+- **Modular by Design**: Every feature is a self-contained module with its own lifecycle, routes, and hooks located in `app/Modules`.
 - **Enterprise Performance**: Targeted 95+ PageSpeed scores via aggressive caching, WebP optimization, and critical CSS strategies.
-- **Shared Hosting Friendly**: Optimized for file-based drivers and standard PHP environments, avoiding heavy dependencies like Elasticsearch or Redis where possible.
+- **Shared Hosting Friendly**: Optimized for file-based drivers and standard PHP environments, avoiding root-access requirements.
 - **Developer First**: Fully typed PHP 8.2+ backend with Vue 3 Composition API frontend.
 
 ## 🛠 Technology Stack
-- **Backend**: Laravel 12, PHP 8.2+, MySQL
-- **Frontend**: Inertia.js, Vue 3, Tailwind CSS
-- **Processing**: Intervention Image v3 (Image handling), Canvas API (Image editing)
+- **Backend**: Laravel 12, PHP 8.2+, MySQL 8.0+
+- **Frontend**: Inertia.js, Vue 3, Tailwind CSS, Vite
+- **Processing**: Intervention Image v3, Canvas API
 - **Infrastructure**: Custom Module System, Hook/Action API
 
 ---
 
-## 📅 Roadmap & Development Phases
+##  System Requirements
 
-### Phase 1: Foundation & Security (RBAC)
-The bedrock of the system, focusing on modularity and access control.
-- **Modular Core**: Advanced module loader with dependency resolution and lifecycle hooks.
-- **RBAC System**: Role-Based Access Control with fine-grained permissions and super-admin overrides.
-- **Web Installer**: Multi-step graphical installer for database, migrations, and admin setup.
+### Minimum Requirements
+- **PHP**: 8.2 or higher
+- **MySQL**: 5.7+ or MariaDB 10.3+
+- **Node.js**: 20+ with npm
+- **Composer**: 2.2+
+- **Web Server**: Apache 2.4+ with `mod_rewrite` enabled
 
-### Phase 2: Content Management System
-A flexible content engine capable of handling various data structures.
-- **Polymorphic Architecture**: Unified `contents` table supporting Pages, Posts, and custom types via STI.
-- **Hierarchical Data**: Nested sets for categories and adjacency lists for folders.
-- **Multi-language**: Translation layer for global content reach.
-- **Revision History**: Full audit trail and versioning for all content nodes.
-
-### Phase 3: Advanced Media Library
-A professional-grade asset management suite.
-- **Chunked Uploads**: Resumable, multi-file uploads for large assets with progress tracking.
-- **Automatic Optimization**: Real-time conversion to WebP and generation of 4 responsive variants (Thumbnail, Medium, Large, Hero).
-- **In-Browser Editor**: Canvas-based image editor for cropping (Free, 1:1, 16:9, 4:3), rotation, and filters.
-- **Folder Management**: Recursive folder structures with drag-and-drop support.
-
-### Phase 4: SEO, Shortcodes & Performance
-Optimization and extensibility at an enterprise scale.
-- **Enterprise SEO**: Automatic JSON-LD (Schema.org) generation, XML sitemaps, and smart 301 redirects on slug changes.
-- **Shortcode Engine**: Recursive, WordPress-style shortcode system with AST generation for SPA hydration.
-- **Performance Suite**: Full-page response caching, .htaccess hardening, and lazy-loading composables.
-
-### Phase 5: Ad Management & AdSense Integration
-Comprehensive ad placement and monetization system.
-- **Flexible Units**: Support for Google AdSense (Auto-ads & Manual), custom banners, and HTML/JS snippets.
-- **Auto-Injection**: Rules-based engine to automatically insert ads after specific paragraph counts.
-- **UX Protection**: Built-in AdBlocker detection with polite fallbacks and CLS-prevention placeholders.
-- **Analytics**: Performance tracking for impressions and clicks with privacy-compliant IP hashing.
-
-### Phase 6: Security Hardening & Hardened Configuration
-Enterprise-grade protection suite for high-risk shared hosting environments.
-- **Middleware Security**: Nonce-based CSP, HSTS, and global XSS filtering.
-- **Audit Logging**: Full trail for admin actions and data mutations with the `LogsActivity` trait.
-- **System Monitoring**: Security dashboard for tracking threats and failed login attempts.
-- **Integrity Checks**: CLI-based security auditor for configuration and permission validation.
-
-### Phase 7: Deployment Automation & Production Ops
-Robust automation for reliable releases on DirectAdmin/Shared Hosting.
-- **Atomic Deployment**: Server-side scripts for zero-downtime swaps and database migrations.
-- **CI/CD Integration**: GitHub Actions workflow for automated testing and SFTP-based delivery.
-- **Ops Tooling**: Automated database/file backups and post-deployment system optimization.
-- **Production Hardening**: Production-ready .htaccess with PHP 8.2 selection and resource tuning.
+### Required PHP Extensions
+- `bcmath`, `ctype`, `fileinfo`, `json`, `mbstring`, `openssl`, `pdo_mysql`, `tokenizer`, `xml`, `gd`
 
 ---
 
-## ⚡ Quick Start
-1. Clone the repository.
-2. Run `composer install` and `npm install`.
-3. Configure your initial environment by copying `.env.example` to `.env` (optional, the installer can handle this).
-4. Access `/install` in your browser. The **Web Installer** will guide you through database configuration and automatically generate your `.env` file if it doesn't exist.
-5. Run `npm run dev` for local development.
+## 🚀 Local Installation (XAMPP/Windows)
+
+1. **Clone to htdocs**
+   ```powershell
+   cd C:\xampp\htdocs
+   git clone <repository-url> cms
+   cd cms
+   ```
+
+2. **Initialize Project**
+   ```powershell
+   composer install
+   npm install
+   copy .env.example .env
+   php artisan key:generate
+   ```
+
+3. **Database Configuration**
+   - Create a database named `cms` in phpMyAdmin.
+   - Update `.env`:
+     ```env
+     DB_DATABASE=cms
+     DB_USERNAME=root
+     DB_PASSWORD=
+     ```
+
+4. **Run Migrations & Build**
+   ```powershell
+   php artisan migrate --seed
+   npm run build
+   ```
+
+5. **Access Application**
+   - **Frontend**: `http://localhost/cms/public`
+   - **Admin**: `http://localhost/cms/public/admin`
 
 ---
+
+## 📦 Modular System
+
+The CMS uses a custom module system. Each module is located in `app/Modules`.
+
+### Registering Modules
+New modules must be registered in `bootstrap/providers.php`:
+
+```php
+return [
+    App\Providers\AppServiceProvider::class,
+    
+    // Custom Modules
+    App\Modules\Seo\Providers\SeoServiceProvider::class,
+    App\Modules\User\Providers\UserServiceProvider::class,
+    // Add your module provider here
+];
+```
+
+---
+
+## 🌐 Shared Hosting Deployment
+
+### 1. File Upload
+Upload the entire project to a directory **above** `public_html` (e.g., `/home/username/cms_core`).
+
+### 2. Public Directory
+Move everything inside the `public/` folder to your `public_html/`.
+
+### 3. Path Configuration
+Edit `public_html/index.php` to point to the core directory:
+```php
+require __DIR__.'/../cms_core/vendor/autoload.php';
+$app = require_once __DIR__.'/../cms_core/bootstrap/app.php';
+```
+
+### 4. Production Optimization
+Run these commands to ensure maximum speed:
+```bash
+composer install --no-dev --optimize-autoloader
+php artisan optimize
+php artisan config:cache
+php artisan route:cache
+php artisan view:cache
+```
+
+---
+
+## � Security Hardening
+- **Disable Debug**: Set `APP_DEBUG=false` in `.env`.
+- **Protect Environment**: Ensure `.env` is not accessible via web.
+- **Permissions**: Set `storage` and `bootstrap/cache` to `775`.
+
+---
+
+## 📚 Technical Support
+- **Error Logs**: Located in `storage/logs/laravel.log`.
+- **Artisan**: Use `php artisan` for CLI tasks.
+
 © 2026 LogicDir CMS. Built for Performance.

@@ -36,7 +36,7 @@ class RoleController extends Controller
         return back()->with('success', 'Role created successfully.');
     }
 
-    public function update(Request $request, Role role)
+    public function update(Request $request, Role $role)
     {
         $this->authorize('update', $role);
 
@@ -51,7 +51,7 @@ class RoleController extends Controller
         return back()->with('success', 'Role updated successfully.');
     }
 
-    public function destroy(Role role)
+    public function destroy(Role $role)
     {
         $this->authorize('delete', $role);
 
@@ -64,7 +64,7 @@ class RoleController extends Controller
         return back()->with('success', 'Role deleted successfully.');
     }
 
-    public function syncPermissions(Request $request, Role role)
+    public function syncPermissions(Request $request, Role $role)
     {
         $this->authorize('update', $role);
 
