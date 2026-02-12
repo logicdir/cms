@@ -49,8 +49,8 @@ Optimization and extensibility at an enterprise scale.
 ## ⚡ Quick Start
 1. Clone the repository.
 2. Run `composer install` and `npm install`.
-3. Configure your `.env` file.
-4. Access `/install` in your browser to start the setup wizard.
+3. Configure your initial environment by copying `.env.example` to `.env` (optional, the installer can handle this).
+4. Access `/install` in your browser. The **Web Installer** will guide you through database configuration and automatically generate your `.env` file if it doesn't exist.
 5. Run `npm run dev` for local development.
 
 ---
