@@ -76,7 +76,8 @@ LogicDir is a high-performance, modular Content Management System built with **L
    ```
 3. **Database**
    - Create a database named `cms` in phpMyAdmin (`http://localhost/phpmyadmin`).
-   - Run `php artisan migrate --seed`.
+4. **Run Web Installer**
+   - Navigate to `http://localhost/cms/public/install` in your browser to complete the setup.
 
 ### B. WAMP (Windows)
 1. **Clone to www**: `C:\wamp64\www\cms`
@@ -139,4 +140,5 @@ php artisan route:cache
 - **Debugging**: Ensure `APP_DEBUG=false` in production.
 - **Permissions**: Folders `755`, Files `644`, Storage `775`.
 
-© 2026 LogicDir CMS. Built for Performance.
+### 4. Run Web Installer
+Navigate to `https://yourdomain.com/install` to finalize the system setup.
