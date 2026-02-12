@@ -41,8 +41,10 @@ php artisan migrate --force
 
 # 6. Post-Deploy Optimization
 echo "⚡ Warming up cache..."
-php artisan logicdir:cache-clear
-php artisan logicdir:cache-warm
+php artisan optimize
+php artisan config:cache
+php artisan route:cache
+php artisan view:cache
 
 # 7. Exit Maintenance Mode
 echo "✨ Deployment successful. Exiting maintenance mode..."

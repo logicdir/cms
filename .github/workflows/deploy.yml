@@ -38,4 +38,5 @@ jobs:
           ssh_private_key: ${{ secrets.SSH_KEY }}
           local_path: 'deploy-package.zip'
           remote_path: '/home/${{ secrets.FTP_USER }}/deployments'
+          port: 22
           args: '-o ConnectTimeout=5'
