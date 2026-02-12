@@ -1,0 +1,70 @@
+{
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "title": "LogicDir Module Manifest",
+    "type": "object",
+    "required": [
+        "name",
+        "slug",
+        "version",
+        "author"
+    ],
+    "properties": {
+        "name": {
+            "type": "string",
+            "description": "The human-readable name of the module."
+        },
+        "slug": {
+            "type": "string",
+            "pattern": "^[a-z0-9-]+$",
+            "description": "Unique URL-friendly identifier for the module."
+        },
+        "version": {
+            "type": "string",
+            "pattern": "^[0-9]+\\.[0-9]+\\.[0-9]+(-[a-z0-9]+)?$",
+            "description": "Semantic versioning of the module."
+        },
+        "description": {
+            "type": "string",
+            "description": "Short description of what the module does."
+        },
+        "author": {
+            "type": "string",
+            "description": "Author of the module."
+        },
+        "author_url": {
+            "type": "string",
+            "format": "uri",
+            "description": "Link to the author's website."
+        },
+        "dependencies": {
+            "type": "object",
+            "additionalProperties": {
+                "type": "string"
+            },
+            "description": "List of dependent modules and their version constraints."
+        },
+        "entrypoint": {
+            "type": "string",
+            "description": "Primary class that implements ModuleInterface."
+        },
+        "permissions": {
+            "type": "array",
+            "items": {
+                "type": "string"
+            },
+            "description": "List of permissions the module provides."
+        },
+        "providers": {
+            "type": "array",
+            "items": {
+                "type": "string"
+            },
+            "description": "Laravel service providers to register."
+        },
+        "priority": {
+            "type": "integer",
+            "default": 10,
+            "description": "Loading priority for the module."
+        }
+    }
+}
