@@ -30,41 +30,74 @@ LogicDir is a high-performance, modular Content Management System built with **L
 
 ---
 
-## 🚀 Local Installation (XAMPP/Windows)
+## 🚀 Local Installation
 
+### A. XAMPP (Windows/Mac/Linux)
 1. **Clone to htdocs**
-   ```powershell
+   ```bash
    cd C:\xampp\htdocs
    git clone <repository-url> cms
    cd cms
    ```
-
-2. **Initialize Project**
-   ```powershell
+2. **Setup**
+   ```bash
    composer install
    npm install
    copy .env.example .env
    php artisan key:generate
    ```
+3. **Database**
+   - Create a database named `cms` in phpMyAdmin (`http://localhost/phpmyadmin`).
+   - Run `php artisan migrate --seed`.
 
-3. **Database Configuration**
-   - Create a database named `cms` in phpMyAdmin.
+---
+
+### B. WAMP (Windows)
+1. **Clone to www**
+   ```bash
+   cd C:\wamp64\www
+   git clone <repository-url> cms
+   ```
+2. **Setup**
+   - Open WAMP Terminal or PowerShell in `/cms`.
+   - Run `composer install` and `npm install`.
+   - Copy `.env.example` to `.env` and run `php artisan key:generate`.
+3. **Database**
+   - Create `cms` database in phpMyAdmin.
+   - Update `DB_PASSWORD` in `.env` if you set one (WAMP default is empty).
+
+---
+
+### C. MAMP (Mac)
+1. **Clone to htdocs**
+   ```bash
+   cd /Applications/MAMP/htdocs
+   git clone <repository-url> cms
+   ```
+2. **Setup**
+   - Use MAMP's PHP version (ensure 8.2+).
+   - Run `composer install` and `npm install`.
+3. **Database**
    - Update `.env`:
      ```env
-     DB_DATABASE=cms
+     DB_PORT=8889
      DB_USERNAME=root
-     DB_PASSWORD=
+     DB_PASSWORD=root
      ```
 
-4. **Run Migrations & Build**
-   ```powershell
-   php artisan migrate --seed
-   npm run build
-   ```
+---
 
-5. **Access Application**
-   - **Frontend**: `http://localhost/cms/public`
-   - **Admin**: `http://localhost/cms/public/admin`
+### D. Laragon (Windows)
+1. **Clone to www**
+   ```bash
+   cd C:\laragon\www
+   git clone <repository-url> cms
+   ```
+2. **Auto-Virtual Host**
+   - Laragon will automatically detect the folder and create `http://cms.test`.
+3. **Setup**
+   - Right-click Laragon -> Terminal.
+   - Run `composer install`, `npm install`, and migrate.
 
 ---
 
