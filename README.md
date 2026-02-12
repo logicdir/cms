@@ -44,6 +44,13 @@ Optimization and extensibility at an enterprise scale.
 - **Shortcode Engine**: Recursive, WordPress-style shortcode system with AST generation for SPA hydration.
 - **Performance Suite**: Full-page response caching, .htaccess hardening, and lazy-loading composables.
 
+### Phase 5: Ad Management & AdSense Integration
+Comprehensive ad placement and monetization system.
+- **Flexible Units**: Support for Google AdSense (Auto-ads & Manual), custom banners, and HTML/JS snippets.
+- **Auto-Injection**: Rules-based engine to automatically insert ads after specific paragraph counts.
+- **UX Protection**: Built-in AdBlocker detection with polite fallbacks and CLS-prevention placeholders.
+- **Analytics**: Performance tracking for impressions and clicks with privacy-compliant IP hashing.
+
 ---
 
 ## ⚡ Quick Start
