@@ -22,7 +22,7 @@ import Layout from './Layout.vue';
 
             <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <a
-                    href="/admin"
+                    :href="route('admin.users.index')"
                     class="flex items-center justify-center px-6 py-4 border border-transparent text-base font-semibold rounded-2xl shadow-md text-white bg-slate-900 hover:bg-black transition-all"
                 >
                     <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -31,7 +31,7 @@ import Layout from './Layout.vue';
                     Go to Admin Panel
                 </a>
                 <a
-                    href="/"
+                    :href="route('home')"
                     class="flex items-center justify-center px-6 py-4 border border-slate-200 text-base font-semibold rounded-2xl shadow-sm text-slate-700 bg-white hover:bg-slate-50 transition-all"
                 >
                     <svg class="w-5 h-5 mr-2 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">

@@ -30,19 +30,31 @@ class DatabaseInstaller
     /**
      * Run migrations and seeders.
      */
-    public function runMigrations(): bool
+    public function runMigrations(): array
     {
         try {
-            // Ensure we are using the correct connection from .env
-            Artisan::call('migrate', ['--force' => true]);
+            // Use buffered output to capture the migration results
+            $output = new \Symfony\Component\Console\Output\BufferedOutput;
             
-            // In a real scenario, we'd check if seeders exist
-            // Artisan::call('db:seed', ['--force' => true]);
+            // Run migrations (fresh to ensure a clean state)
+            Artisan::call('migrate:fresh', ['--force' => true], $output);
+            $migrateOutput = $output->fetch();
             
-            return true;
+            // Optionally run seeders if needed
+            // Artisan::call('db:seed', ['--force' => true], $output);
+            // $seedOutput = $output->fetch();
+            
+            return [
+                'success' => true,
+                'output' => $migrateOutput,
+            ];
         } catch (Exception $e) {
             Log::error('Installer Migration Error: ' . $e->getMessage());
-            return false;
+            return [
+                'success' => false,
+                'message' => $e->getMessage(),
+                'output' => $e->getMessage(),
+            ];
         }
     }
 

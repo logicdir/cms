@@ -76,8 +76,11 @@ LogicDir is a high-performance, modular Content Management System built with **L
    ```
 3. **Database**
    - Create a database named `cms` in phpMyAdmin (`http://localhost/phpmyadmin`).
-4. **Run Web Installer**
-   - Navigate to `http://localhost/cms/public/install` in your browser to complete the setup.
+79. **Post-Installation**
+    - Run `php artisan storage:link` to enable avatar uploads/display.
+    - If installing in a subdirectory (e.g., `/cms/`), the system automatically detects this via `bootstrap/app.php`. Ensure `APP_URL` in `.env` matches your full URL (e.g., `http://localhost/cms`).
+80. **Run Web Installer**
+    - Navigate to `http://localhost/cms/public/install` in your browser to complete the setup.
 
 ### B. WAMP (Windows)
 1. **Clone to www**: `C:\wamp64\www\cms`

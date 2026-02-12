@@ -80,8 +80,12 @@ class EnvironmentWriter
         return file_put_contents($envPath, $content) !== false;
     }
 
-    protected function quoteValue(string $value): string
+    protected function quoteValue(?string $value): string
     {
+        if ($value === null) {
+            return '';
+        }
+        
         if (str_contains($value, ' ') || str_contains($value, '#')) {
             return '"' . str_replace('"', '\"', $value) . '"';
         }

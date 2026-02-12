@@ -27,7 +27,7 @@ const testConnection = async () => {
     errors.value = {};
 
     try {
-        const response = await axios.post('/install/test-connection', form);
+        const response = await axios.post(route('install.test'), form);
         testResult.value = response.data;
     } catch (e) {
         if (e.response && e.response.status === 422) {
@@ -42,7 +42,7 @@ const testConnection = async () => {
 
 const next = () => {
     if (testResult.value?.passed) {
-        router.get('/install/migration');
+        router.get(route('install.migration'));
     }
 };
 </script>

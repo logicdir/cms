@@ -9,6 +9,9 @@ use App\Modules\Installer\Http\Requests\SiteConfigRequest;
 use App\Modules\Installer\Services\DatabaseInstaller;
 use App\Modules\Installer\Services\EnvironmentWriter;
 use App\Modules\Installer\Services\RequirementChecker;
+use App\Modules\User\Database\Seeders\RolesPermissionsSeeder;
+use App\Modules\User\Models\Role;
+use App\Modules\User\Models\User;
 use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -77,11 +80,12 @@ class InstallerController extends Controller
      */
     public function runMigration()
     {
-        $success = $this->dbInstaller->runMigrations();
+        $result = $this->dbInstaller->runMigrations();
         
         return response()->json([
-            'success' => $success,
-            'message' => $success ? 'Migrations completed successfully.' : 'Migration failed. Check logs.',
+            'success' => $result['success'],
+            'message' => $result['success'] ? 'Migrations completed successfully.' : 'Migration failed. Check logs.',
+            'output'  => $result['output'] ?? '',
         ]);
     }
 
@@ -106,16 +110,23 @@ class InstallerController extends Controller
             // 1. Save Site Config to .env
             $this->envWriter->saveSiteConfig($siteReq->validated());
 
-            // 2. Create Admin User
-            // Note: We assume a User model exists as per Laravel defaults
-            // If it's a fresh install, we might need to handle the case where the table is empty
-            DB::table('users')->insert([
+            // 2. Run Seeders
+            $seeder = new RolesPermissionsSeeder();
+            $seeder->run();
+
+            // 3. Create Admin User
+            $user = User::create([
                 'name' => $adminReq->name,
                 'email' => $adminReq->email,
-                'password' => Hash::make($adminReq->password),
-                'created_at' => now(),
-                'updated_at' => now(),
+                'password' => $adminReq->password, // Form uses password hashing in model or we use Hash::make
+                'status' => 'active',
             ]);
+
+            // 4. Assign Super Admin Role
+            $superAdminRole = Role::where('slug', 'super-admin')->first();
+            if ($superAdminRole) {
+                $user->roles()->attach($superAdminRole->id);
+            }
 
             DB::commit();
 

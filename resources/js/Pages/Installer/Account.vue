@@ -19,7 +19,7 @@ const form = useForm({
 });
 
 const submit = () => {
-    form.post('/install/save-account');
+    form.post(route('install.save-account'));
 };
 </script>
 

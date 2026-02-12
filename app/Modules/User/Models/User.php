@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Support\Facades\Storage;
 
 class User extends Authenticatable
 {
@@ -32,12 +33,23 @@ class User extends Authenticatable
         'password' => 'hashed',
     ];
 
+    protected $appends = ['avatar_url'];
+
     public function roles(): BelongsToMany
     {
-        return $this->belongsToMany(Role::class);
+        return $this->belongsToMany(Role::class, 'role_user');
     }
 
-    public function permissions(): BelongsToMany
+    public function getAvatarUrlAttribute(): string
+    {
+        if ($this->avatar && Storage::disk('public')->exists($this->avatar)) {
+            return Storage::disk('public')->url($this->avatar);
+        }
+
+        return $this->gravatar();
+    }
+
+    public function permissions()
     {
         // Many-to-many through roles
         return $this->roles()->with('permissions')->get()->pluck('permissions')->flatten()->unique('id');

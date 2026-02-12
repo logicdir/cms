@@ -21,6 +21,10 @@ class UserServiceProvider extends ServiceProvider
             $this->loadRoutesFrom(__DIR__ . '/../Routes/admin.php');
         }
 
+        if (file_exists(__DIR__ . '/../Routes/web.php')) {
+            $this->loadRoutesFrom(__DIR__ . '/../Routes/web.php');
+        }
+
         // Define Super Admin Gate
         Gate::before(function ($user, $ability) {
             if ($user instanceof User && $user->isSuperAdmin()) {

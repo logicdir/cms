@@ -21,8 +21,6 @@ return new class extends Migration
             $table->string('og_image')->nullable();
             $table->string('twitter_card')->default('summary_large_image');
             $table->timestamps();
-
-            $table->index(['seoable_type', 'seoable_id']);
         });
     }
 
